@@ -4,34 +4,34 @@ icon: console
 
 # Binary Deployment
 
-For single node deployment, the gorse-in-one single binary can be used.
+Pour le déploiement d'un nœud unique, le binaire unique Gorse-in-one peut être utilisé.
 
-::: warning For the multi-nodes scenario, binary deployment is not recommended. :::
+::: avertissement Pour le scénario multi-nœuds, le déploiement binaire n'est pas recommandé. :::
 
-## Prerequisites
+## Conditions préalables
 
-Gorse depends on following software:
+Gorse dépend des logiciels suivants :
 
 - Cache storage database, one of *MySQL*, *PostgreSQL*, *MongoDB* or *Redis*.
-- Data storage database, one of *MySQL*, *PostgreSQL*, *ClickHouse* or *MongoDB*.
+- Base de données de stockage de données, parmi *MySQL* , *PostgreSQL* , *ClickHouse* ou *MongoDB* .
 
-The minimal versions of dependent software are as follows:
+Les versions minimales des logiciels dépendants sont les suivantes :
 
-Software | Minimal Version | Compatible Product
+Logiciel | Version minimale | Produit compatible
 --- | --- | ---
 Redis | 5.0 |
 MySQL | 5.7 | MariaDB &gt;= 10.2
-PostgresSQL | 10.0 |
-ClickHouse | 21.10 |
+PostgreSQL | 10.0 |
+CliquezMaison | 21.10 |
 MongoDB | 4.0 |
 
-## Run Gorse-in-one
+## Exécutez Gorse en un
 
-1. Download Gorse-in-one from GitHub Release.
+1. Téléchargez Gorse-in-one depuis GitHub Release.
 
 ::: code-tabs#download
 
-@tab:active Linux
+@tab:Linux actif
 
 ```bash
 # For amd64 CPU:
@@ -43,7 +43,7 @@ wget -O gorse.zip https://github.com/gorse-io/gorse/releases/latest/download/gor
 wget -O gorse.zip https://github.com/gorse-io/gorse/releases/latest/download/gorse_linux_arm64.zip
 ```
 
-@tab macOS
+@onglet macOS
 
 ```bash
 # For amd64 CPU:
@@ -55,7 +55,7 @@ wget -O gorse.zip https://github.com/gorse-io/gorse/releases/latest/download/gor
 wget -O gorse.zip https://github.com/gorse-io/gorse/releases/latest/download/gorse_darwin_arm64.zip
 ```
 
-@tab Windows
+@onglet Fenêtres
 
 ```powershell
 # For amd64 CPU:
@@ -69,19 +69,11 @@ Invoke-WebRequest https://github.com/gorse-io/gorse/releases/latest/download/gor
 
 :::
 
-1. Install Gorse-in-one.
+1. Installez Gorse-en-un.
 
-::: code-tabs#download
+::: code-tabs#téléchargement
 
-@tab:active Linux
-
-```bash
-unzip gorse.zip
-
-sudo cp gorse/gorse-in-one /usr/local/bin/gorse
-```
-
-@tab macOS
+@tab:Linux actif
 
 ```bash
 unzip gorse.zip
@@ -89,7 +81,15 @@ unzip gorse.zip
 sudo cp gorse/gorse-in-one /usr/local/bin/gorse
 ```
 
-@tab Windows
+@onglet macOS
+
+```bash
+unzip gorse.zip
+
+sudo cp gorse/gorse-in-one /usr/local/bin/gorse
+```
+
+@onglet Fenêtres
 
 ```powershell
 Expand-Archive gorse.zip -DestinationPath gorse
@@ -97,40 +97,40 @@ Expand-Archive gorse.zip -DestinationPath gorse
 
 :::
 
-1. Create a configuration file `config.toml` based on [config.toml.template](https://github.com/gorse-io/gorse/blob/release-0.4/config/config.toml.template).
+1. Créez un fichier de configuration `config.toml` basé sur [config.toml.template](https://github.com/gorse-io/gorse/blob/release-0.4/config/config.toml.template) .
 
-2. Run Gorse-in-one.
+2. Exécutez Gorse-en-un.
 
 ```
 gorse -c config.toml
 ```
 
-### Flags of Gorse-in-one
+### Drapeaux d'Ajoncs-en-un
 
-There are commend line flags for Gorse-in-one:
+Il existe des drapeaux de ligne de recommandation pour Gorse-in-one :
 
- | Flag | Default Value | Description
+ | Drapeau | Valeur par défaut | La description
 --- | --- | --- | ---
-`-c` | `-c,--config` |  | Configuration file path.
- | `--debug` |  | Debug log mode.
-`-h` | `--help` |  | Help for gorse-in-one.
- | `--log-path` |  | Log file path.
- | `--master-cache-path` | `master_cache.data` | Master node cache path.
- | `--playground` |  | Playground mode.
-`-v` | `--version` |  | Gorse version.
- | `--worker-cache-path` | `worker_cache.data` | Worker node cache path.
- | `--worker-jobs` | `1` | Worker node working jobs.
+`-c` | `-c,--config` |  | Chemin du fichier de configuration.
+ | `--debug` |  | Mode journal de débogage.
+`-h` | `--help` |  | Aide pour l'ajonc en un.
+ | `--log-path` |  | Chemin du fichier journal.
+ | `--master-cache-path` | `master_cache.data` | Chemin du cache du nœud maître.
+ | `--playground` |  | Mode aire de jeux.
+`-v` | `--version` |  | Version ajonc.
+ | `--worker-cache-path` | `worker_cache.data` | Chemin d'accès au cache du noeud worker.
+ | `--worker-jobs` | `1` | Tâches de travail du nœud de travail.
 
-## Setup Systemd
+## Configurer Systemd
 
-1. Copy Gorse-in-one binary to `/usr/local/bin` and configuration files to `/etc/gorse`:
+1. Copiez le binaire Gorse-in-one dans `/usr/local/bin` et les fichiers de configuration dans `/etc/gorse` :
 
 ```bash
 sudo cp ./gorse-in-one /usr/local/bin/gorse
 sudo cp config.toml /etc/gorse/
 ```
 
-1. Create the systemd configuration file at `/etc/systemd/system/gorse.service`:
+1. Créez le fichier de configuration systemd dans `/etc/systemd/system/gorse.service` :
 
 ```systemd
 [Unit]
@@ -146,25 +146,25 @@ ExecStart=/usr/local/bin/gorse -c /etc/gorse/config.toml
 WantedBy=multi-user.target
 ```
 
-1. After that you're supposed to reload systemd:
+1. Après cela, vous êtes censé recharger systemd :
 
 ```bash
 sudo systemctl daemon-reload
 ```
 
-1. Launch Gorse-in-one on system startup with:
+1. Lancez Gorse-in-one au démarrage du système avec :
 
 ```bash
 sudo systemctl enable gorse
 ```
 
-1. Launch Gorse-in-one immediately with:
+1. Lancez Gorse-in-one immédiatement avec :
 
 ```bash
 sudo systemctl start gorse
 ```
 
-1. Check the health and logs of Gorse-in-one with:
+1. Vérifiez la santé et les journaux de Gorse-in-one avec :
 
 ```bash
 systemctl status clash
